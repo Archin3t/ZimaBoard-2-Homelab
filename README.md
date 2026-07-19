@@ -1,48 +1,34 @@
 # ZimaBoard 2 Homelab Blueprint
 
-Public documentation for a **small Proxmox-based Homelab**: media streaming, optional NAS, and a separate books/reading stack.
+Public architecture documentation for a **single-node Proxmox Homelab** built around the **IceWhale ZimaBoard 2 (1664)** — and reusable on similar (or totally different) hardware.
 
-In my case I am utilizing the ZimaBoard 2 1664 based on x86 Architecture. The following are the contents/specifications of the ZimaBoard 2 1664:
+This repo answers: what the box runs, why it’s split that way, how to recreate the **platform**, and where app install guides live.
 
-- Intel N150 Quad-Core up to 3.6GHz
-- 16GB LPDDR5 4800MHz RAM
-- 64GB eMMC Storage
-- 2× SATA Ports
-- 2× 2.5GbE
-- 2× USB 3.0
-- 1× Mini DisplayPort
+## Companion repos (two — not three)
 
-This repository describes **architecture and roles**. Application install details live in companion repos:
+| Repository | Covers |
+|------------|--------|
+| [ZimaBoard-Media-Stack](https://github.com/Archin3t/ZimaBoard-Media-Stack) | **Movies + TV + books** — Jellyfin, Jellyseerr, Sonarr, Radarr, Prowlarr, qBittorrent, Kavita, Calibre-Web Automated, LazyLibrarian |
+| [ZimaBoard-NAS-Platform](https://github.com/Archin3t/ZimaBoard-NAS-Platform) | **NAS + storage + everything else** — OpenMediaVault patterns, disk passthrough, shares, backups, extras |
 
-| Repository | Purpose |
-|------------|---------|
-| [homelab-media-stack](https://github.com/Archin3t/homelab-media-stack) | Jellyfin, Sonarr, Radarr, qBittorrent, etc. |
-| [homelab-books-stack](https://github.com/Archin3t/homelab-books-stack) | Kavita, Calibre-Web, Audiobookshelf, etc. |
+**HTML manual:** [archin3t.github.io/ZimaBoard-2-Homelab](https://archin3t.github.io/ZimaBoard-2-Homelab/)
 
-## Docs
+## ZimaBoard 2 1664 (reference hardware)
 
-| File(s) | Purpose |
-|----------|---------|
-| [documentation/DOCUMENTATION.md](documentation/DOCUMENTATION.md) | System blueprint & design |
-| [documentation/CREATION-GUIDE.md](documentation/CREATION-GUIDE.md) | How to create the hypervisor guests |
-| [documentation/USER-GUIDE.md](documentation/USER-GUIDE.md) | Which service to open for which job |
-| [documentation/SECURITY](documentation/SECURITY.md) | Security Policy & Practices |
-| [docs/index.html](https://archin3t.github.io/ZimaBoard-2-Homelab/) | Single-page HTML manual |
+| Spec | Value |
+|------|--------|
+| CPU | Intel N150 (quad-core, up to ~3.6 GHz) |
+| RAM | 16 GB LPDDR5 |
+| Boot | 64 GB eMMC (hypervisor OS only) |
+| NIC | 2× 2.5GbE |
+| I/O | 2× SATA · 2× USB 3.0 · Mini DisplayPort |
+| GPU | Intel iGPU (VAAPI / Quick Sync when passed to Jellyfin) |
 
-## Safety
+Same **concepts** apply on other N-series boxes, NUCs, SFF PCs, or larger nodes — scale RAM/disk; keep role separation.
 
-This project is intentionally **free of secrets**: no passwords, API keys, personal usernames, or private LAN addresses. Use placeholders and set real values only on your own infrastructure.
+## What it does
 
-I try to still show how a user like you could potentially have the system laid out, for example IP Scheme/Subnets, Ports and IP addresses, Usernames and Passwords, Etc.
-
-## License
-
-ZIMA Has its own Privacy Policy & Agreements, I am affiliated however do not share agreements, or have any binding contracts.
-
-Documentation provided as-is for educational / Homelab use. Not affiliated with Proxmox, Jellyfin, or related projects. (Excluding ZIMA)
-
-Do not take this/make content of this repository without crediting me first:
-
-- [Instagram](https://www.instagram.com/archin3t)
-- [YouTube](https://www.youtube.com/@Archinet-Labs)
-- [GitHub](https://github.com/Archin3t)
+```text
+Request show/movie → *arr + torrent client → media disk → Jellyfin streams
+Books ingest/fetch  → books guest disk      → Kavita / Calibre-Web
+File shares/backups → NAS guest (optional)
