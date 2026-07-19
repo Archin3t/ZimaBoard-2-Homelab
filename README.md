@@ -25,7 +25,7 @@ This repository describes **architecture and roles**. Application install detail
 | [docs/CREATION-GUIDE.md](docs/CREATION-GUIDE.md) | How to create the hypervisor guests |
 | [docs/USER-GUIDE.md](docs/USER-GUIDE.md) | Which service to open for which job |
 | [docs/SECURITY](docs/SECURITY.md) | Security Policy & Practices |
-| [static-website-view/index.html](Static-Site-View/index.html) | Single-page HTML manual |
+| [site/index.html](site/index.html) | Single-page HTML manual |
 
 ## Safety
 
