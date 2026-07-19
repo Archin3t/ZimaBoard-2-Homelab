@@ -4,8 +4,8 @@ Public documentation for a **small Proxmox-based Homelab**: media streaming, opt
 
 This repository describes **architecture and roles**. Application install details live in companion repos:
 
-- [homelab-media-stack](https://github.com/EXAMPLE/homelab-media-stack) — replace with your fork URL
-- [homelab-books-stack](https://github.com/EXAMPLE/homelab-books-stack) — replace with your fork URL
+- [homelab-media-stack](https://github.com/EXAMPLE/homelab-media-stack) 
+- [homelab-books-stack](https://github.com/EXAMPLE/homelab-books-stack) 
 
 ## Docs
 
@@ -19,7 +19,14 @@ This repository describes **architecture and roles**. Application install detail
 ## Safety
 
 This project is intentionally **free of secrets**: no passwords, API keys, personal usernames, or private LAN addresses. Use placeholders and set real values only on your own infrastructure.
-
+I try to still show how a user like you could potentially have the system laid out, for example IP Scheme/Subnets, Ports and IP addresses, Usernames and Passwords, Etc.
 ## License
 
-Documentation provided as-is for educational / Homelab use. Not affiliated with Proxmox, Jellyfin, or related projects.
+ZIMA Has its own Privacy Policy & Agreements, I am affiliated however do not share agreements, or have any binding contracts.
+
+Documentation provided as-is for educational / Homelab use. Not affiliated with Proxmox, Jellyfin, or related projects. (Excluding ZIMA)
+
+Do not take this/make content of this repository without crediting me first: 
+| - [Instagram](https://www.instagram.com/archin3t) |
+| - [YouTube](https://www.youtube.com/@Archinet-Labs) |
+| - [GitHub](https://github.com/Archin3t) (Obviously) |
