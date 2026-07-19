@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Homelab Blueprint</title>
+  <style>
+    :root {
+      --bg: #0b1220;
+      --surface: #111a2e;
+      --surface-2: #162036;
+      --border: #243049;
+      --text: #e8edf7;
+      --muted: #9aa8c0;
+      --accent: #22d3ee;
+      --accent-dim: #0891b2;
+      --accent-bg: rgba(34, 211, 238, 0.08);
+      --radius: 10px;
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+      --font: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+      --mono: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
+      --max: 920px;
+      --nav-h: 3.25rem;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: calc(var(--nav-h) + 1rem);
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      font-size: 1rem;
+      line-height: 1.65;
+      color: var(--text);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .topnav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0 1.25rem;
+      background: rgba(11, 18, 32, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topnav .brand {
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+      margin-right: auto;
+    }
+
+    .topnav nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 0.75rem;
+      font-size: 0.82rem;
+    }
+
+    .topnav nav a {
+      color: var(--muted);
+      text-decoration: none;
+      padding: 0.2rem 0;
+    }
+
+    .topnav nav a:hover { color: var(--accent); text-decoration: none; }
+
+    .hero {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 2.5rem 1.25rem 1rem;
+    }
+
+    .hero h1 {
+      margin: 0 0 0.5rem;
+      font-size: clamp(1.75rem, 4vw, 2.35rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .hero .lead {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 62ch;
+    }
+
+    main {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 1.25rem 3rem;
+    }
+
+    section {
+      margin-top: 2.25rem;
+      scroll-margin-top: calc(var(--nav-h) + 1rem);
+    }
+
+    h2 {
+      margin: 0 0 0.85rem;
+      font-size: 1.35rem;
+      font-weight: 650;
+      color: var(--text);
+      padding-bottom: 0.45rem;
+      border-bottom: 2px solid var(--accent-dim);
+      display: inline-block;
+    }
+
+    h3 {
+      margin: 1.25rem 0 0.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    p { margin: 0.65rem 0; }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.15rem 1.25rem;
+      box-shadow: var(--shadow);
+      margin: 1rem 0;
+    }
+
+    .card.highlight {
+      border-color: var(--accent-dim);
+      background: linear-gradient(135deg, var(--surface) 0%, var(--surface-2) 100%);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.92rem;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.55rem 0.75rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--surface-2);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    tr:nth-child(even) td { background: rgba(255, 255, 255, 0.02); }
+
+    code, pre {
+      font-family: var(--mono);
+      font-size: 0.88em;
+    }
+
+    code {
+      background: var(--accent-bg);
+      color: var(--accent);
+      padding: 0.12em 0.4em;
+      border-radius: 4px;
+      word-break: break-word;
+    }
+
+    pre {
+      background: #070d18;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.15rem;
+      overflow-x: auto;
+      line-height: 1.45;
+      color: #c5d4ea;
+      margin: 1rem 0;
+    }
+
+    ul, ol { margin: 0.5rem 0; padding-left: 1.35rem; }
+    li { margin: 0.35rem 0; }
+    li::marker { color: var(--accent-dim); }
+
+    .diagram {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      line-height: 1.35;
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    .diagram-html {
+      display: grid;
+      gap: 0.75rem;
+      margin: 1rem 0;
+    }
+
+    .diagram-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+      align-items: stretch;
+    }
+
+    .diagram-box {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.75rem 1rem;
+      text-align: center;
+      min-width: 140px;
+      flex: 1 1 140px;
+      max-width: 220px;
+    }
+
+    .diagram-box.host {
+      border-color: var(--accent-dim);
+      background: var(--accent-bg);
+      max-width: 280px;
+      flex-basis: 100%;
+    }
+
+    .diagram-box small { display: block; color: var(--muted); margin-top: 0.25rem; font-size: 0.78rem; }
+
+    .diagram-arrow {
+      text-align: center;
+      color: var(--accent-dim);
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      background: var(--accent-bg);
+      border: 1px solid var(--accent-dim);
+      border-radius: 999px;
+      padding: 0.15rem 0.55rem;
+      margin-bottom: 0.35rem;
+    }
+
+    footer {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 2.5rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 720px) {
+      .topnav { flex-wrap: wrap; height: auto; padding: 0.65rem 1rem; }
+      .topnav nav { font-size: 0.78rem; }
+    }
+
+    @media print {
+      body { background: #fff; color: #111; }
+      .topnav { position: static; background: #fff; border-bottom: 1px solid #ccc; }
+      .topnav nav a, a { color: #036; }
+      .card, pre, th { background: #f5f5f5 !important; box-shadow: none; }
+      h2 { border-color: #333; color: #111; }
+      code { background: #eee; color: #111; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topnav">
+  <span class="brand">Homelab Blueprint</span>
+  <nav aria-label="Page sections">
+    <a href="#overview">Overview</a>
+    <a href="#architecture">Architecture</a>
+    <a href="#guests">Guests</a>
+    <a href="#storage">Storage</a>
+    <a href="#network">Network</a>
+    <a href="#create">Create</a>
+    <a href="#use">Use</a>
+    <a href="#related">Related</a>
+    <a href="#safety">Safety</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <h1>Homelab Blueprint</h1>
+  <p class="lead">A single-node Proxmox layout for media streaming, optional NAS, and a separate books stack — documented with placeholders only.</p>
+</div>
+
+<main>
+
+  <section id="overview">
+    <h2>Overview</h2>
+    <div class="card highlight">
+      <p>This blueprint separates concerns across hypervisor guests so playback, automation, and reading stay independent. Application install details live in companion repositories; this page describes roles, storage, and how the pieces connect.</p>
+    </div>
+    <table>
+      <thead>
+        <tr><th>Role</th><th>Responsibility</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Hypervisor</td><td>Proxmox VE on the host — VMs, LXCs, storage pools</td></tr>
+        <tr><td>Media player</td><td>Jellyfin (or similar) for streaming</td></tr>
+        <tr><td>Media automation</td><td>Request UI, Sonarr/Radarr, indexers, torrent client</td></tr>
+        <tr><td>NAS (optional)</td><td>File shares and backup target</td></tr>
+        <tr><td>Books / reading</td><td>Separate guest with its own disk — Kavita + Calibre stack</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="architecture">
+    <h2>Architecture</h2>
+    <p>One physical host runs Proxmox. Guests share a dedicated media volume where hardlinks matter; the books stack keeps its library on an isolated disk.</p>
+
+    <div class="diagram-html" aria-label="Architecture diagram">
+      <div class="diagram-row">
+        <div class="diagram-box host">
+          <span class="badge">Host</span>
+          Proxmox VE<br><small><code>&lt;PROXMOX_HOST&gt;:8006</code></small>
+        </div>
+      </div>
+      <div class="diagram-arrow">&#8595; &#8595; &#8595;</div>
+      <div class="diagram-row">
+        <div class="diagram-box">
+          <span class="badge">Guest</span>
+          Media player<br><small>Jellyfin &middot; <code>&lt;JELLYFIN_HOST&gt;</code></small>
+        </div>
+        <div class="diagram-box">
+          <span class="badge">Guest</span>
+          Media stack<br><small>*arr + client &middot; <code>&lt;MEDIA_STACK_HOST&gt;</code></small>
+        </div>
+        <div class="diagram-box">
+          <span class="badge">Guest</span>
+          Books stack<br><small>Kavita + CWA &middot; <code>&lt;BOOKS_HOST&gt;</code></small>
+        </div>
+        <div class="diagram-box">
+          <span class="badge">Optional</span>
+          NAS<br><small>Shares / backup</small>
+        </div>
+      </div>
+      <div class="diagram-arrow">shared media volume &nbsp;&middot;&nbsp; books: own disk only</div>
+    </div>
+
+    <pre class="diagram">                    +------------------+
+                    |   Homelab host   |
+                    |    (Proxmox)     |
+                    +--------+---------+
+                             |
+        +--------------------+--------------------+
+        |                    |                    |
+        v                    v                    v
+ +--------------+    +---------------+    +--------------+
+ | Media player |    | Media stack   |    | Books stack  |
+ | (Jellyfin)   |    | (request/*arr)|    | (Kavita/...) |
+ +------+-------+    +-------+-------+    +------+-------+
+        ^                    |                   |
+        |          shared media volume           |
+        +--------------------+                   |
+                             |            own disk only
+                             v
+                    +----------------+
+                    | Media files    |
+                    +----------------+</pre>
+  </section>
+
+  <section id="guests">
+    <h2>Guests</h2>
+    <p>Assign your own IDs, names, and addresses. Resource numbers are starting points — adjust for your hardware.</p>
+
+    <h3>Media player</h3>
+    <table>
+      <thead><tr><th>Setting</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>Type</td><td>LXC (Debian) or VM</td></tr>
+        <tr><td>vCPU / RAM</td><td>2 vCPU, 2–4 GB RAM</td></tr>
+        <tr><td>Disk</td><td>8–16 GB OS</td></tr>
+        <tr><td>Extra</td><td>Bind-mount media volume; pass <code>/dev/dri</code> for VAAPI</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Media automation</h3>
+    <table>
+      <thead><tr><th>Setting</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>Type</td><td>LXC with nesting (Docker) or VM</td></tr>
+        <tr><td>vCPU / RAM</td><td>2 vCPU, 2–4 GB RAM</td></tr>
+        <tr><td>Extra</td><td><strong>Same</strong> media volume mount as the player (hardlinks)</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Books</h3>
+    <table>
+      <thead><tr><th>Setting</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>Type</td><td>LXC with nesting or VM</td></tr>
+        <tr><td>Disk</td><td>64–256 GB on guest storage (library lives here)</td></tr>
+        <tr><td>Extra</td><td>Do <strong>not</strong> mount the movies/TV volume unless intentional</td></tr>
+      </tbody>
+    </table>
+
+    <h3>NAS (optional)</h3>
+    <table>
+      <thead><tr><th>Setting</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>Type</td><td>VM</td></tr>
+        <tr><td>Data</td><td>Passthrough or virtio disk for shares</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="storage">
+    <h2>Storage</h2>
+    <div class="card">
+      <p>Mount media volumes by <strong>LABEL</strong> or <code>/dev/disk/by-id/...</code> — never by unstable <code>/dev/sdX</code> letters.</p>
+    </div>
+    <table>
+      <thead><tr><th>Data</th><th>Where</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>Hypervisor OS</td><td>Boot device</td><td>Small, rebuildable</td></tr>
+        <tr><td>Guest virtual disks</td><td>Guest storage pool</td><td>Snapshots and backups</td></tr>
+        <tr><td>Movies / TV / downloads</td><td>Dedicated media volume</td><td>Large; shared by player + automation</td></tr>
+        <tr><td>Books / textbooks</td><td>Books guest disk</td><td>Isolation from media server</td></tr>
+      </tbody>
+    </table>
+    <p>Bind-mount the media volume into player and automation guests at the <strong>same absolute path</strong> (example: <code>/data/media</code>) so hardlinks work.</p>
+  </section>
+
+  <section id="network">
+    <h2>Network</h2>
+    <p>Private LAN only unless you deliberately add a reverse proxy and TLS. Give each guest a static address you choose and document the map privately — not in public git.</p>
+    <table>
+      <thead><tr><th>Role</th><th>Placeholder URL</th></tr></thead>
+      <tbody>
+        <tr><td>Hypervisor UI</td><td><code>https://&lt;PROXMOX_HOST&gt;:8006</code></td></tr>
+        <tr><td>Media player</td><td><code>http://&lt;JELLYFIN_HOST&gt;:8096</code></td></tr>
+        <tr><td>Request UI</td><td><code>http://&lt;MEDIA_STACK_HOST&gt;:5055</code></td></tr>
+        <tr><td>Books reader</td><td><code>http://&lt;BOOKS_HOST&gt;:5000</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="create">
+    <h2>Create</h2>
+    <p>Condensed hypervisor setup — app installs are in the companion repos.</p>
+    <ol>
+      <li>Install Proxmox VE; prepare guest storage pool.</li>
+      <li>Label the media disk; mount on host (example <code>/mnt/media</code>).</li>
+      <li>Create media player, media automation, and books guests (optional NAS).</li>
+      <li>Attach guests to LAN bridge; assign static IPs locally.</li>
+      <li>Bind-mount media volume into player + automation at identical paths.</li>
+      <li>Follow <strong>homelab-media-stack</strong> creation guide on player + automation guests.</li>
+      <li>Follow <strong>homelab-books-stack</strong> creation guide on the books guest.</li>
+      <li>Store credentials in a password manager — never in git.</li>
+    </ol>
+    <h3>Backup sketch</h3>
+    <table>
+      <thead><tr><th>What</th><th>Idea</th></tr></thead>
+      <tbody>
+        <tr><td>Guest configs / disks</td><td>Hypervisor backup jobs</td></tr>
+        <tr><td>Media library</td><td>Separate backup; often excluded if bind-mounted</td></tr>
+        <tr><td>Books library</td><td>Backup books guest disk or sync library off-box</td></tr>
+        <tr><td>Secrets</td><td>Password manager export — encrypted, never plain git</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="use">
+    <h2>Use</h2>
+    <p>Replace placeholders with addresses you keep in private notes.</p>
+    <table>
+      <thead><tr><th>I want to…</th><th>Open</th></tr></thead>
+      <tbody>
+        <tr><td>Watch movies/TV</td><td><code>http://&lt;JELLYFIN_HOST&gt;:8096</code></td></tr>
+        <tr><td>Request new title</td><td><code>http://&lt;MEDIA_STACK_HOST&gt;:5055</code></td></tr>
+        <tr><td>Check torrent progress</td><td>Download client WebUI on media-stack guest</td></tr>
+        <tr><td>Read books</td><td><code>http://&lt;BOOKS_HOST&gt;:5000</code></td></tr>
+        <tr><td>Manage VMs/containers</td><td><code>https://&lt;PROXMOX_HOST&gt;:8006</code></td></tr>
+      </tbody>
+    </table>
+    <div class="card">
+      <strong>Mental model:</strong> Player = watch &nbsp;·&nbsp; Request UI = ask &nbsp;·&nbsp; *arr = automate (usually ignore) &nbsp;·&nbsp; Books reader = read (separate from movies).
+    </div>
+  </section>
+
+  <section id="related">
+    <h2>Related repos</h2>
+    <ul>
+      <li><strong>homelab-media-stack</strong> — request → download → organize → stream pipeline</li>
+      <li><strong>homelab-books-stack</strong> — Kavita, Calibre-Web Automated, optional LazyLibrarian</li>
+    </ul>
+    <p>Each companion repo includes its own HTML manual, creation guide, and user guide.</p>
+  </section>
+
+  <section id="safety">
+    <h2>Safety</h2>
+    <ul>
+      <li>No passwords, API keys, personal usernames, or private LAN addresses in public documentation.</li>
+      <li>Use placeholders (<code>&lt;PROXMOX_HOST&gt;</code>, etc.) and set real values only on your infrastructure.</li>
+      <li>Prefer LABEL/by-id disk mounts for removable media.</li>
+      <li>Keep books storage separate when you want media-drive isolation.</li>
+      <li>See <code>SECURITY.md</code> in the repo root for the redaction checklist.</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  Homelab Blueprint — documentation only. Not affiliated with Proxmox, Jellyfin, or related projects.
+</footer>
+
+</body>
+</html>
