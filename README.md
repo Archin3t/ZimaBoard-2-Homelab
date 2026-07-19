@@ -9,7 +9,7 @@ This repo answers: what the box runs, why it’s split that way, how to recreate
 | Repository | Covers |
 |------------|--------|
 | [ZimaBoard-Media-Stack](https://github.com/Archin3t/ZimaBoard-Media-Stack) | **Movies + TV + books** — Jellyfin, Jellyseerr, Sonarr, Radarr, Prowlarr, qBittorrent, Kavita, Calibre-Web Automated, LazyLibrarian |
-| [ZimaBoard-NAS-Platform](https://github.com/Archin3t/ZimaBoard-NAS-Platform) | **NAS + storage + everything else** — OpenMediaVault patterns, disk passthrough, shares, backups, extras |
+| [ZimaBoard-NAS (and everything else)](https://github.com/Archin3t/ZimaBoard-NAS) | **NAS + storage + everything else** — OpenMediaVault patterns, disk passthrough, shares, backups, extras |
 
 **HTML manual:** [archin3t.github.io/ZimaBoard-2-Homelab](https://archin3t.github.io/ZimaBoard-2-Homelab/)
 
