@@ -112,7 +112,7 @@ Scale storage and memory as needed while keeping workload separation intact.
 | **[CREATION-GUIDE.md](https://github.com/Archin3t/ZimaBoard-2-Homelab/blob/main/documentation/CREATION-GUIDE.md)** | Recommended build order from bare hardware to finished homelab |
 | **[USER-GUIDE.md](https://github.com/Archin3t/ZimaBoard-2-Homelab/blob/main/documentation/USER-GUIDE.md)** | Day-to-day administration, maintenance, updates, and troubleshooting |
 | **[SECURITY.md](https://github.com/Archin3t/ZimaBoard-2-Homelab/blob/main/documentation/SECURITY.md)** | Security practices, credential redaction, and privacy policy |
-| **[index.html]([https://github.com/Archin3t/ZimaBoard-2-Homelab/blob/main/docs/index.html](https://github.com/Archin3t/ZimaBoard-2-Homelab/blob/main/docs/index.html))** | Single-page HTML documentation for GitHub Pages |
+| **[index.html](https://github.com/Archin3t/ZimaBoard-2-Homelab/blob/main/docs/index.html)** | Single-page HTML documentation for GitHub Pages |
 
 ---
 
